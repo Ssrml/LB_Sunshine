@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.18)
 # `CMAKE_CUDA_ARCHITECTURES` requires 3.18
 
-project(Sunshine VERSION 0.18.1
+project(Sunshine VERSION 0.18.9
         DESCRIPTION "Sunshine is a self-hosted game stream host for Moonlight."
         HOMEPAGE_URL "https://app.lizardbyte.dev")
 
@@ -72,8 +72,10 @@ find_package(OpenSSL REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(CURL REQUIRED libcurl)
 
-if(WIN32)
+if(NOT APPLE)
     set(Boost_USE_STATIC_LIBS ON)  # cmake-lint: disable=C0103
+endif()
+if(WIN32)
     # workaround to prevent link errors against icudata, icui18n
     set(Boost_NO_BOOST_CMAKE ON) # cmake-lint: disable=C0103
 endif()
@@ -378,7 +380,6 @@ ${CMAKE_BINARY_DIR}/generated-src/${filename}.h")
             third-party/glad/include/glad/egl.h)
 
     list(APPEND PLATFORM_LIBRARIES
-            Boost::dynamic_linking
             dl
             evdev
             numa
@@ -468,8 +469,6 @@ else()
     else()
         set(FFMPEG_PREPARED_BINARIES "${CMAKE_CURRENT_SOURCE_DIR}/third-party/ffmpeg-linux-x86_64")
         list(APPEND FFMPEG_PLATFORM_LIBRARIES mfx)
-        set(CPACK_DEB_PLATFORM_PACKAGE_DEPENDS "libmfx1,")
-        set(CPACK_RPM_PLATFORM_PACKAGE_REQUIRES "intel-mediasdk >= 22.3.0,")
     endif()
 endif()
 set(FFMPEG_INCLUDE_DIRS
@@ -788,7 +787,6 @@ elseif(UNIX)
         # Dependencies
         set(CPACK_DEB_COMPONENT_INSTALL ON)
         set(CPACK_DEBIAN_PACKAGE_DEPENDS "\
-                ${CPACK_DEB_PLATFORM_PACKAGE_DEPENDS} \
                 libboost-filesystem1.67.0 | libboost-filesystem1.71.0 | libboost-filesystem1.74.0, \
                 libboost-log1.67.0 | libboost-log1.71.0 | libboost-log1.74.0, \
                 libboost-program-options1.67.0 | libboost-program-options1.71.0 | libboost-program-options1.74.0, \
@@ -797,17 +795,13 @@ elseif(UNIX)
                 libcurl4, \
                 libdrm2, \
                 libevdev2, \
-                libnuma1, \
                 libopus0, \
                 libpulse0, \
-                libva2, \
-                libva-drm2, \
-                libvdpau1, \
-                libwayland-client0, \
-                libx11-6, \
-                openssl | libssl3")
+                libxcb-shm0, \
+                libxcb-xfixes0, \
+                libxtst6, \
+                openssl")
         set(CPACK_RPM_PACKAGE_REQUIRES "\
-                ${CPACK_RPM_PLATFORM_PACKAGE_REQUIRES} \
                 boost-filesystem >= 1.67.0, \
                 boost-log >= 1.67.0, \
                 boost-program-options >= 1.67.0, \
@@ -817,12 +811,9 @@ elseif(UNIX)
                 libdrm >= 2.4.97, \
                 libevdev >= 1.5.6, \
                 libopusenc >= 0.2.1, \
-                libva >= 2.14.0, \
-                libvdpau >= 1.5, \
-                libwayland-client >= 1.20.0, \
-                libX11 >= 1.7.3.1, \
-                numactl-libs >= 2.0.14, \
-                openssl >= 3.0.2, \
+                libxcb >= 1.13, \
+                libXtst >= 1.2.3, \
+                openssl >= 1.1, \
                 pulseaudio-libs >= 10.0")
         # This should automatically figure out dependencies, doesn't work with the current config
         set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS OFF)

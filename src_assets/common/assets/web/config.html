@@ -49,7 +49,7 @@
           The minimum log level printed to standard out
         </div>
       </div>
-      <!--Log Path-->
+      <!--Origin Web UI Allowed-->
       <div class="mb-3">
         <label for="log_path" class="form-label">Logfile Path</label>
         <input
@@ -445,6 +445,19 @@
       </div>
     </div>
     <div v-if="currentTab === 'advanced'" class="config-page">
+      <!--Address family-->
+      <div class="mb-3">
+        <label for="address_family" class="form-label">Address Family</label>
+        <select
+          id="address_family"
+          class="form-select"
+          v-model="config.address_family"
+        >
+          <option value="ipv4">IPv4 only</option>
+          <option value="both">IPv4+IPv6</option>
+        </select>
+        <div class="form-text">Set the address family used by Sunshine</div>
+      </div>
       <!--Port family-->
       <div class="mb-3">
         <label for="port" class="form-label">Port</label>
@@ -906,6 +919,8 @@
             this.config.origin_pin_allowed || "pc";
           this.config.origin_web_ui_allowed =
             this.config.origin_web_ui_allowed || "lan";
+          this.config.address_family =
+            this.config.address_family || "ipv4";
           this.config.hevc_mode = this.config.hevc_mode || 0;
           this.config.encoder = this.config.encoder || "";
           this.config.nv_preset = this.config.nv_preset || "p4";

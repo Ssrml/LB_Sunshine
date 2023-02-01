@@ -152,6 +152,7 @@ Uninstall:
 
 RPM Package
 ^^^^^^^^^^^
+
 #. Add `rpmfusion` repositories by running the following code.
 
    .. code-block:: bash

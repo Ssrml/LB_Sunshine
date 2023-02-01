@@ -1,9 +1,6 @@
 # Changelog
-
-## [0.18.1] - 2023-01-31
-### Fixed
-- (Linux) Fixed missing dependencies for deb and rpm packages
-- (Linux) Use dynamic boost
+## [0.18.9] - 2023-02-1
+添加ipv6支持
 
 ## [0.18.0] - 2023-01-29
 Attention, this release contains critical security fixes. Please update as soon as possible. Additionally, we are
@@ -306,4 +303,4 @@ settings. In v0.17.0, games now run under your user account without elevated pri
 [0.16.0]: https://github.com/LizardByte/Sunshine/releases/tag/v0.16.0
 [0.17.0]: https://github.com/LizardByte/Sunshine/releases/tag/v0.17.0
 [0.18.0]: https://github.com/LizardByte/Sunshine/releases/tag/v0.18.0
-[0.18.1]: https://github.com/LizardByte/Sunshine/releases/tag/v0.18.1
+[0.18.9]: https://github.com/Ssrml/LB_Sunshine/releases/tag/v0.18.9
